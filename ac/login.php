@@ -25,12 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     // バリデーション突破後
     if (empty($errors))  // $errorsが空だったら(=エラーが無かったら)
     {
-        $sql = "select * from users where name = :name and password = :password";  // テーブルの中に該当レコードがあるか
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindParam(":name", $name);
-        $stmt->bindParam(":password", $password);
-        $stmt->execute();
-        $row = $stmt->fetch();  // レコードの取り出し
+        $sql = 'SELECT password FROM users WHERE name = :name;';  // テーブルの中に該当レコードがあるか
+        $sth = $dbh->prepare($sql);
+        $sth->bindParam(":name", $_POST['name']);
+        $sth->execute();
+        $row = $sth->fetch();  // レコードの取り出し
         // var_dump($row);
     if ($row)  // 該当レコードがあったら
     {
@@ -63,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             <?php endif ?>
             </p>
             <p>
-            メールアドレス: <input type="password" name="password">
+            パスワード: <input type="password" name="password">
             <?php if ($errors['password']) : ?>
                 <?php echo h($errors['password']) ?>
             <?php endif ?>

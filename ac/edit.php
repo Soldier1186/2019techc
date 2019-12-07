@@ -3,24 +3,27 @@ $dbh = new PDO('mysql:host=database-1.c6bncgbidtab.us-east-1.rds.amazonaws.com;d
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
+
     $name = $_POST['name'];
     $hash_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    var_dump($hash_password);
     $errors = array();  // バリデーションのエラーメッセージ
     // バリデーション
     if ($name == '')  // もしnameが空だったら
     {
         $errors['name'] = '※ ユーザネームが未入力です';
     }
-    if ($password == '')  
+    if ($hash_password == '')  
     {
-        $errors['password'] = '※ パスワードが未入力です';
+        $errors['hash_password'] = '※ パスワードが未入力です';
     }
     if (empty($errors))  // $errorsが空だったら(=エラーが無かったら)
     {
-	$sql = 'INSERT INTO users (name, hash, created_at) VALUES(:name, :hash, now())';
-        $stmt = $dbh->prepare($sql);
-	$stmt->execute([ ':name'=>$_REQUEST['name'], ':hash'=>$hash ]);
-	$stmt->execute();
+	$sql = 'INSERT INTO users (name, password, created_at) VALUES(:name, :password, now())';
+	$sth = $dbh->prepare($sql);
+	$sth->bindParam(':name', $name);
+	$sth->bindParam(':password', $hash_password);
+	$sth->execute();
     }
 }
 ?>
