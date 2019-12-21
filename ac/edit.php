@@ -1,9 +1,7 @@
 <?php
 $dbh = new PDO('mysql:host=database-1.c6bncgbidtab.us-east-1.rds.amazonaws.com;dbname=keijiban','Oha','password');
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-
     $name = $_POST['name'];
     $hash_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     var_dump($hash_password);

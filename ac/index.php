@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $dbh = new PDO('mysql:host=database-1.c6bncgbidtab.us-east-1.rds.amazonaws.com;dbname=keijiban','Oha','password');
 
 
@@ -21,12 +23,16 @@ $rows = $select_sth->fetchAll();
     <?php } ?>
 </div>
 <?php endforeach; ?>
+<hr>
 
+<?php if(empty($_SESSION['user_login_name'])): ?>
+ログインしないと投稿できません。ログインは<a href="./login_form.php">こちら</a>。
+<?php else: ?>
 
 
 <form method="POST" action="./ss.php" enctype="multipart/form-data">
     <div>
-        名前: <input type="text" name="name">
+	名前: <?php echo($_SESSION['user_login_name']) ?>
         <input type="file" name="upload_image">
     </div>
     <div>
@@ -34,3 +40,4 @@ $rows = $select_sth->fetchAll();
     </div>
     <input type="submit">
 </form>
+<?php endif; ?>

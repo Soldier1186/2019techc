@@ -1,19 +1,15 @@
 <?php
 $dbh = new PDO('mysql:host=database-1.c6bncgbidtab.us-east-1.rds.amazonaws.com;dbname=keijiban','Oha','password');
-
 session_start();
-
 if (!empty($_SESSION['id']))
 {
 	header('Location: index.php');
 }
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
 	$name = $_POST['name'];
 	$password = $_POST['password'];
 	$errors = array();
-
 	if ($name == '')  // もしnameが空だったら
     {
         $errors['name'] = '※ ユーザネームが未入力です';

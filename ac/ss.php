@@ -1,6 +1,7 @@
 <?php
+session_start();
 
-if( empty($_POST['body']) ) { 
+if( empty($_POST['body']) || empty($_SESSION['user_login_name'])) {
   header("HTTP/1.1 302 Found");
   header("Location: ./index.php");
   return;
@@ -17,7 +18,6 @@ if ($_FILES['upload_image']['size'] > 0) {
 }
 
 
-
 $dbh = new PDO('mysql:host=database-1.c6bncgbidtab.us-east-1.rds.amazonaws.com;dbname=keijiban','Oha','password');
 
 
@@ -25,7 +25,7 @@ $dbh = new PDO('mysql:host=database-1.c6bncgbidtab.us-east-1.rds.amazonaws.com;d
 // INSERTする
 $insert_sth = $dbh->prepare("INSERT INTO bbs (name, body, filename) VALUES (:name, :body, :filename)");
 $insert_sth->execute(array(
-    ':name' => $_POST['name'],
+    ':name' => $_POST['user_login_name'],
     ':body' => $_POST['body'],
     ':filename' => $filename,
 ));
