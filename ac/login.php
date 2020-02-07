@@ -6,7 +6,7 @@ if($_POST['name'] != null && $_POST['password'] != null){
 	$password = $_POST['password'];
 	$sql = 'SELECT * FROM users WHERE name = :name';
 	$stmt = $dbh->prepare($sql);
-	$stmt->execute(':name' => $name);
+	$stmt->execute(:name => $name);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
