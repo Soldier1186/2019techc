@@ -1,4 +1,6 @@
 <?php
+ob_start();
+session_start();
 $dbh = new PDO('mysql:host=database-1.c6bncgbidtab.us-east-1.rds.amazonaws.com;dbname=keijiban','Oha','password');
 
 if($_POST['name'] != null && $_POST['password'] != null){
@@ -6,7 +8,15 @@ if($_POST['name'] != null && $_POST['password'] != null){
 	$password = $_POST['password'];
 	$sql = 'SELECT * FROM users WHERE name = :name';
 	$stmt = $dbh->prepare($sql);
-	$stmt->execute(:name => $name);
+	$rows = $stmt->fetchAll();
+	
+	foreach($rows as $row){
+		$password_hash = $row['password'];
+
+		
+	}
+	
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
